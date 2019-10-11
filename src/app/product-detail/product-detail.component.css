@@ -1,0 +1,264 @@
+.swiper {
+  height: 500px;
+  overflow: hidden;
+}
+
+.swiper-slide img {
+  display: block;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+}
+
+.gallery-top {
+  height: 80%;
+  width: 100%;
+}
+
+.gallery-thumbs {
+  height: 20%;
+  box-sizing: border-box;
+  padding: 10px 0;
+}
+
+.gallery-thumbs .swiper-slide {
+  height: 100%;
+  opacity: 0.4;
+}
+
+.gallery-thumbs .swiper-slide-thumb-active {
+  opacity: 1;
+}
+
+.top {
+  margin: 30px 0;
+}
+
+.top .container {
+  display: flex;
+
+
+}
+
+.swiper {
+  flex-basis: 45%;
+  max-width: 45%;
+  margin-right: 20px;
+}
+
+.detail {
+  flex-grow: 1;
+  padding: 10px;
+}
+
+.detail h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.detail .description {
+  color: #A3A3A3;
+  font-size: 14px;
+  margin: 10px 0;
+  display: block;
+
+}
+
+.detail .brand {
+  background: #E2E2E2;
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.detail .price {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail .price span:nth-child(2) {
+  margin: 20px 0;
+  color: #ff674f;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.detail .productNo {
+  font-size: 14px;
+  display: block;
+  margin: 10px 0;
+}
+.detail .productStock {
+  font-size: 14px;
+  display: block;
+  margin: 10px 0;
+}
+
+.detail .style div {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.detail .style div span {
+  background: #E2E2E2;
+  margin-right: 5px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  flex: 1;
+  text-align: center;
+}
+
+.detail .style div span.choosed {
+  background: #ff674f;
+  color: #fff;
+}
+
+.detail .btn {
+  display: flex;
+  flex-wrap: nowrap;
+  height: 45px;
+  margin-top: 20px;
+}
+
+.detail .btn .btnQuantity {
+  margin-right: 15px;
+  height: 100%;
+}
+
+.detail .btn .btnQuantity button {
+  font-size: 16px;
+  text-align: center;
+  padding: 12px 20px;
+  background: #fff;
+  border-radius: 5px;
+  border: 1px #6c757d solid;
+  cursor: pointer;
+}
+
+.detail .btn .btnQuantity #reduce {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.detail .btn .btnQuantity #add {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.detail .btn .btnQuantity input {
+  font-size: 16px;
+  text-align: center;
+  height: 40px;
+  border: 1px #6c757d solid;
+  margin: -1px;
+  border-radius: 0;
+}
+
+.detail .btn #btnBuy {
+  flex-grow: 1;
+  max-width: 60%;
+  cursor: pointer;
+  background: #ff674f;
+  border: 0;
+  border-radius: 5px;
+  color: #fff;
+  text-align: center;
+}
+
+.detail .favorite {
+  display: inline-block;
+  color: #A3A3A3;
+  padding: 5px 10px;
+  border: 1px #A3A3A3 solid;
+  border-radius: 14px;
+  margin-top: 20px;
+  margin-right: 20px;
+
+}
+
+.detail i {
+  margin-right: 5px;
+  color: #A3A3A3;
+}
+
+
+.detail .favorite:hover {
+  color: #ff674f;
+  border: 1px #ff674f solid;
+}
+
+.detail .favorite:hover i {
+  color: #ff674f;
+}
+
+.detail .addCart {
+  display: inline-block;
+  color: #A3A3A3;
+  padding: 5px 10px;
+  border: 1px #A3A3A3 solid;
+  border-radius: 14px;
+  margin-top: 20px;
+}
+
+.detail .addCart:hover {
+  color: #ff674f;
+  border: 1px #ff674f solid;
+}
+
+.detail .addCart:hover i {
+  color: #ff674f;
+}
+
+.about h2 {
+  border-left: 3px #ff674f solid;
+  padding: 5px 10px;
+  margin-bottom: 50px;
+}
+
+
+.about .swiper-container {
+  height: 400px;
+  padding: 15px 35px;
+}
+
+.about .swiper-container img {
+  height: 250px;
+  width: 250px;
+}
+
+.about .swiper-slide div {
+  text-align: center;
+}
+
+.about .swiper-slide span {
+  display: inline-block;
+  width: 300px;
+  font-size: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 20px 0 10px;
+}
+
+.about .swiper-slide .aboutPrice {
+  margin: 0 0 10px;
+  font-size: 20px;
+  color: #ff674f;
+}
+
+.about .swiper-slide div button {
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 5px;
+  background: #ff674f;
+  color: #fff;
+  text-align: center;
+
+}
+
+.about .swiper-slide div button i {
+  margin-right: 5px;
+}

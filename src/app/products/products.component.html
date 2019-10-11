@@ -1,0 +1,50 @@
+<div class="container">
+  <img src="./assets/images/product_image_1.jpg" alt="#" id="top-image">
+  <div class="main-content">
+    <div class="aside">
+      <ul>
+        <li *ngFor="let item of asideCategories"><a href="#">{{item.categoryName}}</a></li>
+      </ul>
+    </div>
+    <div class="content">
+      <div class="title">
+        <span>{{categoryName}}系列</span>
+        <span class="count">共{{products.length}}件商品</span>
+        <span class="btn" (click)="toList($event)"><i class="fas fa-list iHover"></i></span>
+        <span class="btn" (click)="toBlock($event)"><i class="fas fa-th-large"></i></span>
+      </div>
+      <div class="items">
+        <ng-container *ngIf="isBlockStyle ;else listStyle">
+          <div class="item" *ngFor="let product of products">
+            <div (mouseenter)='imgHover($event)' (mouseleave)="imgLeave($event)">
+              <img [src]="product.imageUrl" alt="#">
+              <div class="search-cart" style="display: none;">
+                <a [href]="'/product/'+product.productID" class="btn"><i class="fas fa-search"></i></a>
+                <a href="#" class="btn"><i class="fas fa-shopping-cart"></i></a>
+              </div>
+            </div>
+            <a href="#">{{product.productName}}</a>
+            <span class="price" [innerText]="'NT$'+product.price"></span>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<ng-template #listStyle>
+  <div class="item-list" *ngFor="let product of products">
+    <a [href]="'/product/'+product.productID"><img [src]="product.imageUrl" alt="#"></a>
+    <div class="item-list-content">
+      <a href="#">{{product.productName}}</a>
+      <p>{{product.description}}</p>
+      <span class="price" [innerText]="'NT$'+ product.price"></span>
+    </div>
+    <div class="item-btn">
+      <a href="#"><i class="fas fa-heart"></i>加入最愛</a>
+      <button class="add-cart-btn"><i class="fas fa-shopping-cart"></i>加入購物車</button>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,28 @@
+<div class="all">
+  <div class="container">
+    <h5>註冊新帳號</h5>
+    <div class="content">
+      <div class="fbSignUp">
+        <p>歡迎回來</p>
+        <button class="btn fbBtn" (click)="fbSignUp();">FACEBOOK 快速登入</button>
+        <hr>
+      </div>
+      <div class="lineSignUp">
+        <button class="btn lineBtn" (click)="lineLoginInit();">LINE 快速登入</button>
+        <hr>
+      </div>
+      <div class="login">
+        <form [formGroup]="loginForm">
+          <label>電子郵件:<input type="text" formControlName="email"></label>
+          <label>密碼:<input type="password" formControlName="password"></label>
+          <button class="btn normalBtn" type="submit" (click)="normalLogin(loginForm.value)"
+            [disabled]="!loginForm.valid">會員登入</button>
+        </form>
+      </div>
+      <div class="statement">
+        <a href="#">忘記密碼?</a>
+        <a href="#">註冊新會員</a>
+      </div>
+    </div>
+  </div>
+</div>

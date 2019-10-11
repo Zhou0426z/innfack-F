@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  font-family: 'Noto Sans TC', sans-serif;
+}
+
+ul{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+a{
+  text-decoration: none;
+}
+.container {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1140px;
+}

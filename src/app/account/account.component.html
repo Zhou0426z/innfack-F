@@ -1,0 +1,31 @@
+<div class="all">
+  <div class="container">
+    <h5>註冊新帳號</h5>
+    <div class="content">
+      <div class="fbSignUp">
+        <p>加入會員享受輕鬆購物</p>
+        <button class="btn fbBtn" (click)="fbSignUp();">FACEBOOK 快速註冊</button>
+        <hr>
+      </div>
+      <div class="lineSignUp">
+        <button class="btn lineBtn" (click)="lineLoginInit();">LINE 快速註冊</button>
+        <hr>
+      </div>
+      <div class="signUp">
+        <p>一般電子郵件註冊</p>
+        <form [formGroup]="normalSignUpForm">
+          <label>姓名<span class="star">*</span><input type="text" formControlName="name"></label>
+          <label>電子郵件<span class="star">*</span><input type="text" formControlName="email"></label>
+          <label>生日<input type="date" formControlName="birthday"></label>
+          <label>密碼<span class="star">*</span><input type="password" formControlName="password"></label>
+          <label>密碼確認<span class="star">*</span><input type="password" formControlName="passwordConfirm"></label>
+          <button class="btn normalBtn" type="submit" (click)="normalSignUp(normalSignUpForm.value)" [disabled]="!normalSignUpForm.valid">加入會員</button>
+        </form>
+      </div>
+      <div class="statement">
+        <p><i class="fas fa-user"></i>我已經有會員帳號了?<a href="#">回登入頁面</a></p>
+        <p>註冊表示同意 <a href="#">商店服務條款</a>與<a href="#">會員責任規範及個資聲明</a></p>
+      </div>
+    </div>
+  </div>
+</div>

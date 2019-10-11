@@ -1,0 +1,8 @@
+a img{
+    width: 100%;
+}
+
+.box1x2{
+    display: flex;
+    flex-wrap: nowrap;
+}

@@ -1,0 +1,73 @@
+<div class="top">
+  <div class="container">
+    <div class="swiper">
+      <div class="swiper-container gallery-top">
+        <div class="swiper-wrapper">
+          <div *ngFor="let data of product.imageSilders" class="swiper-slide">
+            <img [src]="data" alt="#">
+          </div>
+        </div>
+        <div class="swiper-button-next swiper-button-white"></div>
+        <div class="swiper-button-prev swiper-button-white"></div>
+      </div>
+      <div class="swiper-container gallery-thumbs">
+        <div class="swiper-wrapper">
+          <div *ngFor="let data of product.imageSilders" class="swiper-slide">
+            <img [src]="data" alt="#">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail">
+      <h1>{{product.productName}}</h1>
+      <span class="description">{{product.description}}</span>
+      <span class="brand">{{product.brand}}</span>
+      <div class="price">
+        <span>建議售價:</span>
+        <span [innerText]="'NT$'+product.price"></span>
+      </div>
+      <span class="productNo" [innerText]="'商品編號: ' + productNo"></span>
+      <span class="productStock" [innerText]="'庫存: ' + stock"></span>
+      <div class="style" *ngIf="specification.length>0">
+        <p>款式:</p>
+        <div>
+          <span *ngFor="let data of specification ; let i =index" (click)="styleChoose($event,i)">{{data}}</span>
+        </div>
+      </div>
+      <div class="btn">
+        <div class="btnQuantity">
+          <button id="reduce" (click)="reduceQuantity()">-</button>
+          <input type="text" [value]="quantity" (change)="show($event)">
+          <button id="add" (click)="addQuantity()">+</button>
+        </div>
+        <button id="btnBuy">立即購買</button>
+      </div>
+      <span href="#" class="favorite"><i class="fas fa-heart"></i>加入最愛</span>
+      <span href="#" class="addCart"><i class="fas fa-shopping-cart"></i>加入購物車</span>
+    </div>
+  </div>
+</div>
+
+
+<div class="about">
+  <div class="container">
+    <h2>相關產品</h2>
+    <div class="swiper-container" id="swiper-about">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" *ngFor="let data of aboutProducts">
+          <div>
+            <a href="#"><img [src]="data.imageUrl" alt="#"></a>
+            <span [innerText]="data.productName"></span>
+            <span [innerText]="'NT$'+data.price" class="aboutPrice"></span>
+            <button><i class="fas fa-shopping-cart"></i>加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+  </div>
+</div>
+
