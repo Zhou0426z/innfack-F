@@ -12,8 +12,7 @@ import { Observable } from "rxjs";
 })
 export class IndexComponent implements AfterViewInit, OnInit {
   constructor(private imageService: ImageService) {}
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   swiper: Swiper;
   Images: Images[];
@@ -51,24 +50,28 @@ export class IndexComponent implements AfterViewInit, OnInit {
   async swiperInit() {
     await this.imageService
       .getImageByCategory("index_carousel")
-      .toPromise().then(data=>this.Images = data);
-      
-      this.swiper = new Swiper(".swiper-container", {
-        observer:true,
-        autoplay: {
-          delay: 2500
-        },
-        direction: "horizontal",
-        loop: true,
-        pagination: {
-          el: ".swiper-pagination"
-        },
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev"
-        }
-      });
-  
+      .toPromise()
+      .then(data => (this.Images = data));
 
+    this.swiper = new Swiper(".swiper-container", {
+      observer: true,
+      autoplay: {
+        delay: 2500
+      },
+      direction: "horizontal",
+      loop: true,
+      pagination: {
+        el: ".swiper-pagination"
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev"
+      }
+    });
+  }
+
+  t() {
+    console.log("a");
+    localStorage.clear();
   }
 }

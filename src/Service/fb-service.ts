@@ -1,11 +1,11 @@
-import { Injectable } from "@angular/core";
+import { Injectable, NgZone } from "@angular/core";
 import { OutAccountVM } from "src/ViewModels/Out/out-account-vm";
 import { AccountService } from "./account-service";
 declare const FB: any;
 
 @Injectable()
 export class FbService {
-  constructor(private accountService: AccountService) {}
+  constructor(private accountService: AccountService, private zone: NgZone) {}
   outAccountVM: OutAccountVM;
   fbLoginInit() {
     (window as any).fbAsyncInit = function() {
@@ -30,11 +30,24 @@ export class FbService {
       fjs.parentNode.insertBefore(js, fjs);
     })(document, "script", "facebook-jssdk");
   }
-  submitLogin() {
+  fbSignUp() {
+    var accountService = this.accountService;
+    var outAccountVM = this.outAccountVM;
+
     FB.login(
       response => {
         if (response.authResponse) {
-          this.getUser();
+          FB.api("/me", { fields: "email,name" }, function(response) {
+            if (response && !response.error) {
+              outAccountVM = {
+                password: null,
+                userName: response.name,
+                email: response.email,
+                loginBy: "FB"
+              };
+              accountService.signUp(outAccountVM).subscribe();
+            }
+          });
         } else {
           console.log("fail");
         }
@@ -47,18 +60,35 @@ export class FbService {
     FB.logout();
   }
 
-  getUser() {
+  fbLogin() {
     var accountService = this.accountService;
-    FB.api("/me", { fields: "email,name" }, function(response) {
-      if (response && !response.error) {
-        var outAccountVM: OutAccountVM = {
-          password: null,
-          userName: response.name,
-          email: response.email,
-          loginBy: "FB"
-        };
-        accountService.signUp(outAccountVM).subscribe();
-      }
-    });
+    var outAccountVM = this.outAccountVM;
+    var reuslt;
+    FB.login(response =>
+      this.zone.run(
+        () => {
+          if (response.authResponse) {
+            FB.api("/me", { fields: "email,name" }, function(response) {
+              if (response && !response.error) {
+                outAccountVM = {
+                  password: null,
+                  userName: response.name,
+                  email: response.email,
+                  loginBy: "FB"
+                };
+                accountService.login(outAccountVM).subscribe(data => {
+                  accountService.setSessionStorage(data);
+                });
+              }
+            });
+          } else {
+            console.log("fail");
+          }
+        },
+        { scope: "email" }
+      )
+    );
+
+    return reuslt;
   }
 }

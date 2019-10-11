@@ -33,7 +33,7 @@ export class AccountComponent implements OnInit {
     this.fbService.fbLoginInit();
   }
   fbSignUp() {
-    this.fbService.submitLogin();
+    this.fbService.fbSignUp();
   }
   normalSignUp(value) {
     if (value.password != value.passwordConfirm) {
