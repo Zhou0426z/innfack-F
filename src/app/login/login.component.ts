@@ -8,7 +8,7 @@ import { FbService } from "src/Service/fb-service";
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.css"]
+  styleUrls: ["./login.component.css"],
 })
 export class LoginComponent implements OnInit {
   constructor(
@@ -21,10 +21,10 @@ export class LoginComponent implements OnInit {
         null,
         Validators.compose([
           Validators.required,
-          Validators.pattern("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$")
+          Validators.pattern("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"),
         ])
       ),
-      password: new FormControl(null, Validators.required)
+      password: new FormControl(null, Validators.required),
     });
   }
 
@@ -38,11 +38,12 @@ export class LoginComponent implements OnInit {
   outAccountVM: OutAccountVM;
 
   normalLogin(value) {
+    console.log(value);
     this.outAccountVM = new OutAccountVM();
     this.outAccountVM.email = value.email;
     this.outAccountVM.password = value.password;
     this.outAccountVM.loginBy = "normal";
-    this.accountService.login(this.outAccountVM).subscribe(data => {
+    this.accountService.login(this.outAccountVM).subscribe((data) => {
       this.accountService.setSessionStorage(data);
     });
   }

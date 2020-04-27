@@ -16,6 +16,8 @@ import { LineService } from "src/Service/line-service";
 import { AccountService } from "src/Service/account-service";
 import { ReactiveFormsModule } from "@angular/forms";
 import { LoginComponent } from './login/login.component';
+import { AccountIndexComponent } from './account-index/account-index.component';
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { LoginComponent } from './login/login.component';
     ProductsComponent,
     AccountComponent,
     ProductDetailComponent,
-    LoginComponent
+    LoginComponent,
+    AccountIndexComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,

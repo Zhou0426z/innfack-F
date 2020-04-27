@@ -1,0 +1,68 @@
+.accountInfo {
+  margin: 40px 0;
+  border: 1px solid #e2e2e2;
+  padding: 20px;
+  display: flex;
+  min-height: 180px;
+}
+.name {
+  padding: 10px 20px 10px 0;
+  border-right: 1px solid #e2e2e2;
+  margin-right: 20px;
+  flex: 1;
+}
+.name h1 {
+  margin: 0 0 10px;
+}
+.accountEdit {
+  color: #9a9ea2;
+  text-decoration: underline;
+}
+
+.shoppingInfo {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.shopping {
+  display: flex;
+}
+.shopping .shopItem {
+  margin-right: 20px;
+}
+
+.shopping span {
+  font-size: 18px;
+}
+
+.shopping .value {
+  color: #ff674f;
+  margin: 0 5px;
+}
+.btnList{
+    height: 30px;
+}
+.btnList .btn {
+  border: 1px solid #abb4bb;
+  border-radius: 5px;
+  padding: 6px 12px;
+  margin-right: 2px;
+  margin-bottom: 10px;
+  color: #abb4bb;
+}
+.btnList .btn.bright {
+  border: 1px solid #ff674f;
+  color: #ff674f;
+}
+
+.btnList .btn:hover {
+  background-color: #abb4bb;
+  color: #fff;
+}
+
+.btnList .btn.bright:hover {
+  background-color: #ff674f;
+  color: #fff;
+}
