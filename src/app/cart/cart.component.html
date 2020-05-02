@@ -1,1 +1,200 @@
-<p>cart works!</p>
+<div class="background">
+  <div class="container">
+    <div class="outerBox">
+      <div class="fixedInfo">
+        <div class="totalPrice">
+          <h3>結帳金額</h3>
+          <ul>
+            <li>
+              商品小計 <span>{{ price }}</span>
+            </li>
+            <li>
+              運費 <span>+{{ freight }}</span>
+            </li>
+            <li>
+              應付總額
+              <span class="needPay"
+                >NT$ <span>{{ totalPrice }}</span>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="cart">
+        <div class="title">
+          購物車內容
+        </div>
+        <table id="cartTable">
+          <thead>
+            <tr>
+              <th
+                style="width: 50%;"
+                [ngClass]="
+                  { '1': 'my-class1', '2': 'my-class2', '3': 'my-class4' }[step]
+                "
+              >
+                商品明細
+              </th>
+              <th style="width: 10%;">單價</th>
+              <th style="width: 20%;">數量</th>
+              <th style="width: 10%;">小計</th>
+              <th style="width: 5%;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let item of inCartVM; let i = index"
+              [class]="'item' + i"
+            >
+              <td>
+                <img [src]="item.imageUrl" alt="#" /><span>{{
+                  item.productName
+                }}</span>
+              </td>
+              <td>{{ item.price }}</td>
+              <td>
+                <div class="minusBtn countBtn" (click)="quantityMinus($event)">
+                  -
+                </div>
+                <input type="number" [value]="item.quantity" min="0" />
+                <div class="plusBtn countBtn" (click)="quantityPlus($event)">
+                  +
+                </div>
+              </td>
+              <td [innerHTML]="unitPrice[i]"></td>
+              <td (click)="deleteCart($event)" class="delete">x</td>
+            </tr>
+          </tbody>
+        </table>
+        <span class="itemTotal">購物車內合計有{{ totalCount }}項商品</span>
+      </div>
+
+      <div class="payment">
+        <div class="title">
+          付款與運送方式
+        </div>
+        <div class="toWhere">
+          <div class="payOption toStore" [ngClass]="{checkedBorder :toStore}" (click)="changeOption(true)">
+            <div class="checkable" [ngClass]="{ checked: toStore }"></div>
+            超商
+          </div>
+          <div class="payOption toHome"[ngClass]="{checkedBorder :!toStore}" (click)="changeOption(false)">
+            <div class="checkable"[ngClass]="{ checked: !toStore }"></div>
+            宅配
+          </div>
+        </div>
+        <div class="deliveryList" *ngIf="toStore" [@slideInOut]="animationState"> 
+          <span>配送方式</span>
+          <ul>
+            <li>
+              <img src="../../assets/icons/711_icon.png" alt="#" class="icon" />
+              7-11取貨(先付款)
+            </li>
+            <li>
+              <img src="../../assets/icons/711_icon.png" alt="#" class="icon" />
+              7-11 貨到付款
+            </li>
+            <li>
+              <img src="../../assets/icons/FMicon.png" alt="" class="icon" />
+              全家取貨(先付款)
+            </li>
+            <li>
+              <img src="../../assets/icons/FMicon.png" alt="" class="icon" />
+              全家 貨到付款
+            </li>
+          </ul>
+        </div>
+        <div class="payList">
+          <span>付款方式</span>
+          <ul>
+            <li>
+              <img src="../../assets/icons/card.png" alt="#" class="icon" />
+              信用卡
+            </li>
+            <li>
+              <img src="../../assets/icons/4store.png" alt="#" class="icon" />
+              超商代碼
+            </li>
+            <li>
+              <img src="../../assets/icons/atmicon.png" alt="#" class="icon" />
+              虛擬ATM
+            </li>
+            <li>
+              <img src="../../assets/icons/linepay.png" alt="#" class="icon" />
+              Line Pay
+            </li>
+          </ul>
+        </div>
+        <div class="remark">
+          <span>備註</span>
+          <input type="text" />
+        </div>
+      </div>
+      <hr />
+      <span class="buyer">購買人資訊</span>
+      <div class="customerInfo">
+        <label for="#"
+          ><span>姓名</span><input type="text" placeholder="購買人姓名"
+        /></label>
+        <br />
+        <label for="#"
+          ><span>連絡電話</span
+          ><input type="text" placeholder="購買人聯絡電話，例：0987654321"
+        /></label>
+        <br />
+        <div class="invoice">
+          <span>電子發票</span>
+          <ul class="invoiceList">
+            <li>
+              <div class="checkable"></div>
+              會員載具(個人)
+            </li>
+            <li>
+              <div class="checkable"></div>
+              公司用(統編)
+            </li>
+            <li>
+              <div class="checkable"></div>
+              手機載具
+            </li>
+            <li>
+              <div class="checkable"></div>
+              自然人憑證
+            </li>
+            <li>
+              <div class="checkable"></div>
+              捐贈瑪
+            </li>
+          </ul>
+        </div>
+        <br />
+        <label for="#"
+          ><span>捐贈機構</span>
+          <input type="text" placeholder="請輸入欲捐贈單位的捐贈碼"
+        /></label>
+      </div>
+      <div class="checkList">
+        <label for="c1"
+          ><input type="checkbox" name="c1" id="c1" />取件人與購買人相同</label
+        >
+        <label for="c2"
+          ><input
+            type="checkbox"
+            name="c2"
+            id="c2"
+          />同意會員責任規範及個資聲明與商家會員條款</label
+        >
+        <label for="c3"
+          ><input
+            type="checkbox"
+            name="c3"
+            id="c3"
+          />為保障彼此之權益，賣家在收到您的訂單後仍保有決定是否接受訂單及出貨與否之權利</label
+        >
+      </div>
+      <span class="submitBtn">立即結帳</span>
+    </div>
+  </div>
+</div>
