@@ -7,6 +7,9 @@ import { ProductDetailComponent } from "./product-detail/product-detail.componen
 import { AppComponent } from "./app.component";
 import { LoginComponent } from "./login/login.component";
 import { AccountIndexComponent } from "./account-index/account-index.component";
+import { CartComponent } from "./cart/cart.component";
+import { MyAccountComponent } from "./my-account/my-account.component";
+import { EidtAccountComponent } from './my-account/eidt-account/eidt-account.component';
 
 const routes: Routes = [
   // {path:'',redirectTo:'/home/index',pathMatch:'full'},
@@ -15,10 +18,15 @@ const routes: Routes = [
   { path: "collection/:category", component: ProductsComponent },
   { path: "account", component: AccountComponent },
   { path: "login", component: LoginComponent },
-  { path: "AccountIndex", component: AccountIndexComponent },
-
+  { path: "accountIndex", component: AccountIndexComponent },
+  { path: "cart", component: CartComponent },
+  {
+    path: "myAccount",
+    component: MyAccountComponent,
+    children: [{ path: "editAccount", component: EidtAccountComponent }],
+  },
   { path: "product/:productID", component: ProductDetailComponent },
-  { path: "", redirectTo: "/AccountIndex", pathMatch: "full" },
+  { path: "", redirectTo: "/myAccount", pathMatch: "full" },
 ];
 
 @NgModule({

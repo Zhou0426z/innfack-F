@@ -14,11 +14,15 @@ import { CategoryService } from "src/Service/category-service";
 import { FbService } from "src/Service/fb-service";
 import { LineService } from "src/Service/line-service";
 import { AccountService } from "src/Service/account-service";
-import { ReactiveFormsModule } from "@angular/forms";
-import { LoginComponent } from './login/login.component';
-import { AccountIndexComponent } from './account-index/account-index.component';
-import { CartComponent } from './cart/cart.component';
-
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { LoginComponent } from "./login/login.component";
+import { AccountIndexComponent } from "./account-index/account-index.component";
+import { CartComponent } from "./cart/cart.component";
+import { MyAccountComponent } from "./my-account/my-account.component";
+import { EidtAccountComponent } from "./my-account/eidt-account/eidt-account.component";
+import { CartService } from "src/Service/cart-service";
+import { Element } from "@angular/compiler/src/render3/r3_ast";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,13 +32,18 @@ import { CartComponent } from './cart/cart.component';
     ProductDetailComponent,
     LoginComponent,
     AccountIndexComponent,
-    CartComponent
+    CartComponent,
+    MyAccountComponent,
+    EidtAccountComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     ProductService,
@@ -42,8 +51,9 @@ import { CartComponent } from './cart/cart.component';
     CategoryService,
     FbService,
     LineService,
-    AccountService
+    AccountService,
+    CartService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

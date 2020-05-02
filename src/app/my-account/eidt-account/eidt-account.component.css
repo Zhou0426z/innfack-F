@@ -1,0 +1,91 @@
+.form {
+  border: 1px solid #e2e2e2;
+  padding: 30px;
+  margin-bottom: 50px;
+}
+.form label,
+.genderSet {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+}
+.form input {
+  margin-top: 15px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  padding: 5px 10px;
+  height: 30px;
+}
+.form .genderOption,
+.newsOption {
+  display: flex;
+  margin: 15px 0;
+  font-size: 18px;
+}
+.form .genderOption .male,
+.form .newsOption .yes {
+  margin-right: 15px;
+}
+.checkable {
+  display: inline-block;
+  border: 1px solid #e2e2e2;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+.checked {
+  position: relative;
+  background: #ff6855;
+  border: 1px solid #ff6855;
+}
+.checked::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 7px;
+  width: 14px;
+  height: 8px;
+  background: transparent;
+  border: 2px solid #fff;
+  border-top: none;
+  border-right: none;
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+
+.form .btnList {
+  display: flex;
+}
+.form .btn {
+  border: 1px solid #abb4bb;
+  border-radius: 5px;
+  margin-right: 20px;
+  margin-top: 20px;
+  color: #abb4bb;
+  background: #fff;
+  width: 40%;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+}
+
+.form .submitBtn {
+  border: 1px solid #ff674f;
+  color: #ff674f;
+  background: #f0f0f0;
+}
+
+.form .resetBtn:hover {
+  background: #abb4bb;
+  color: #fff;
+  transition-duration: 0.4s;
+}
+
+.form .submitBtn:hover {
+  background: #ff674f;
+  color: #fff;
+  transition-duration: 0.4s;
+}
