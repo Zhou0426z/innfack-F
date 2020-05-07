@@ -10,9 +10,9 @@ export class CartService {
   constructor(private http: HttpClient) {}
 
   getCart(accountID: Guid) {
-    return this.http.post<InCartVM[]>(
-      HttpEnum.port + "Cart/GetCarts",
-      accountID
+    return this.http.get<InCartVM[]>(
+      HttpEnum.port + `Cart/GetCarts?accountID=${accountID}`,
+      
     );
   }
   updateQuantity(outCartVM: OutCartVM) {
@@ -24,6 +24,12 @@ export class CartService {
   deleteCart(outCartVM: OutCartVM) {
     return this.http.post<any>(
       HttpEnum.port + "Cart/DeleteCart",
+      outCartVM
+    );
+  }
+  addCart(outCartVM :OutCartVM){
+    return this.http.post<any>(
+      HttpEnum.port + "Cart/AddCart",
       outCartVM
     );
   }

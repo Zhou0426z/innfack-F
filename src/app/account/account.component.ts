@@ -3,6 +3,7 @@ import { FbService } from "src/Service/fb-service";
 import { OutAccountVM } from "src/ViewModels/Out/out-account-vm";
 import { AccountService } from "src/Service/account-service";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Router } from '@angular/router';
 @Component({
   selector: "app-account",
   templateUrl: "./account.component.html",
@@ -11,7 +12,8 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 export class AccountComponent implements OnInit {
   constructor(
     private fbService: FbService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private router:Router
   ) {
     this.normalSignUpForm = new FormGroup({
       name: new FormControl(null, Validators.required),
@@ -47,6 +49,16 @@ export class AccountComponent implements OnInit {
       password: value.password,
       loginBy: "normal"
     };
-    this.accountService.signUp(this.outAccountVM).subscribe();
+    this.accountService.signUp(this.outAccountVM).subscribe(data=>{
+      localStorage.setItem("id", data.accountID.toString());
+
+    });
+    localStorage.setItem("name", value.name);
+    localStorage.setItem("email", value.email);
+    localStorage.setItem("isLogin", "true");
+    this.router.navigate(["index"]);
+
+
+
   }
 }

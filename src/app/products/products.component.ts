@@ -4,6 +4,11 @@ import { Categories } from "src/Models/categories";
 import { ProductService } from "src/Service/product-service";
 import { InCollectionProductsVM } from "src/ViewModels/In/in-collection-products-vm";
 import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
+import { Guid } from 'guid-typescript';
+import { CartService } from 'src/Service/cart-service';
+import { OutCartVM } from 'src/ViewModels/Out/out-cart-vm';
+import { OutFavoriteVM } from 'src/ViewModels/Out/out-favorite-vm';
+import { FavoriteService } from 'src/Service/favorite-service';
 
 @Component({
   selector: "app-products",
@@ -16,7 +21,9 @@ export class ProductsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private categoryService: CategoryService,
-    private productService: ProductService
+    private productService: ProductService,
+    private cartService :CartService,
+    private favoriteService: FavoriteService
   ) {
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -35,7 +42,7 @@ export class ProductsComponent implements OnInit {
   categoryName: string = "";
   category: string;
   isBlockStyle = false;
-
+  a=false;
   ngOnInit() {
     this.categoryService
       .getAsideCategories()
@@ -66,5 +73,23 @@ export class ProductsComponent implements OnInit {
   imgLeave($event: any) {
     this.renderer.removeClass($event.target.childNodes[0], "imgHover");
     this.renderer.setStyle($event.target.childNodes[1], "display", "none");
+  }
+
+  addCart(productID:Guid){
+    var outCartVM = new OutCartVM();
+    var accountID = Guid.parse(localStorage.getItem("id")).toJSON().value;
+    outCartVM.accountID = accountID;
+    outCartVM.productID = productID;
+    outCartVM.quantity = 1;
+    this.cartService.addCart(outCartVM).subscribe();
+    alert("已加入購物車");
+  }
+  addFavorite(productID:Guid){
+    var outFavoriteVM = new OutFavoriteVM();
+    var accountID = Guid.parse(localStorage.getItem("id")).toJSON().value;
+    outFavoriteVM.accountID = accountID;
+    outFavoriteVM.productID = productID;
+    this.favoriteService.addFavorite(outFavoriteVM).subscribe();
+    alert("已加入最愛");
   }
 }

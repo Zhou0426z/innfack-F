@@ -23,6 +23,12 @@ import { EidtAccountComponent } from "./my-account/eidt-account/eidt-account.com
 import { CartService } from "src/Service/cart-service";
 import { Element } from "@angular/compiler/src/render3/r3_ast";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { OrderService } from 'src/Service/order-service';
+import { FavoriteService } from 'src/Service/favorite-service';
+import { EditPasswordComponent } from './my-account/edit-password/edit-password.component';
+import { FavoriteListComponent } from './my-account/favorite-list/favorite-list.component';
+import { OrderSearchComponent } from './my-account/order-search/order-search.component';
+import { DatePipe } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,15 +41,16 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
     CartComponent,
     MyAccountComponent,
     EidtAccountComponent,
+    EditPasswordComponent,
+    FavoriteListComponent,
+    OrderSearchComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule,
-    BrowserModule,
-    BrowserAnimationsModule,
+    FormsModule
   ],
   providers: [
     ProductService,
@@ -53,6 +60,9 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
     LineService,
     AccountService,
     CartService,
+    FavoriteService,
+    OrderService,
+    DatePipe
   ],
   bootstrap: [AppComponent],
 })

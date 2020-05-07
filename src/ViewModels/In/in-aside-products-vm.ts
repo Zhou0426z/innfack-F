@@ -5,4 +5,5 @@ export class InAsideProductsVM {
   public imageUrl: string;
   public productName: string;
   public price: number;
+  public productNo :string;
 }

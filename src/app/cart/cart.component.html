@@ -1,4 +1,4 @@
-<div class="background">
+<div class="background" *ngIf="inCartVM.length>0">
   <div class="container">
     <div class="outerBox">
       <div class="fixedInfo">
@@ -21,180 +21,193 @@
         </div>
       </div>
     </div>
-    <div class="content">
-      <div class="cart">
-        <div class="title">
-          購物車內容
-        </div>
-        <table id="cartTable">
-          <thead>
-            <tr>
-              <th
-                style="width: 50%;"
-                [ngClass]="
-                  { '1': 'my-class1', '2': 'my-class2', '3': 'my-class4' }[step]
-                "
+    <form [formGroup]="cartForm" novalidate>
+      <div class="content">
+        <div class="cart">
+          <div class="title">
+            購物車內容
+          </div>
+          <table id="cartTable">
+            <thead>
+              <tr>
+                <th
+                  style="width: 50%;"
+                  [ngClass]="
+                    { '1': 'my-class1', '2': 'my-class2', '3': 'my-class4' }[step]
+                  "
+                >
+                  商品明細
+                </th>
+                <th style="width: 10%;">單價</th>
+                <th style="width: 20%;">數量</th>
+                <th style="width: 10%;">小計</th>
+                <th style="width: 5%;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let item of inCartVM; let i = index"
+                [class]="'item' + i"
               >
-                商品明細
-              </th>
-              <th style="width: 10%;">單價</th>
-              <th style="width: 20%;">數量</th>
-              <th style="width: 10%;">小計</th>
-              <th style="width: 5%;"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              *ngFor="let item of inCartVM; let i = index"
-              [class]="'item' + i"
-            >
-              <td>
-                <img [src]="item.imageUrl" alt="#" /><span>{{
-                  item.productName
-                }}</span>
-              </td>
-              <td>{{ item.price }}</td>
-              <td>
-                <div class="minusBtn countBtn" (click)="quantityMinus($event)">
-                  -
-                </div>
-                <input type="number" [value]="item.quantity" min="0" />
-                <div class="plusBtn countBtn" (click)="quantityPlus($event)">
-                  +
-                </div>
-              </td>
-              <td [innerHTML]="unitPrice[i]"></td>
-              <td (click)="deleteCart($event)" class="delete">x</td>
-            </tr>
-          </tbody>
-        </table>
-        <span class="itemTotal">購物車內合計有{{ totalCount }}項商品</span>
-      </div>
-
-      <div class="payment">
-        <div class="title">
-          付款與運送方式
+                <td>
+                  <img [src]="item.imageUrl" alt="#" /><span>{{
+                    item.productName
+                  }}</span>
+                </td>
+                <td>{{ item.price }}</td>
+                <td>
+                  <div class="minusBtn countBtn" (click)="quantityMinus($event)">
+                    -
+                  </div>
+                  <input type="number" [value]="item.quantity" min="0" />
+                  <div class="plusBtn countBtn" (click)="quantityPlus($event)">
+                    +
+                  </div>
+                </td>
+                <td [innerHTML]="unitPrice[i]"></td>
+                <td (click)="deleteCart($event)" class="delete">x</td>
+              </tr>
+            </tbody>
+          </table>
+          <span class="itemTotal">購物車內合計有{{ totalCount }}項商品</span>
         </div>
-        <div class="toWhere">
-          <div class="payOption toStore" [ngClass]="{checkedBorder :toStore}" (click)="changeOption(true)">
-            <div class="checkable" [ngClass]="{ checked: toStore }"></div>
-            超商
+  
+        <div class="payment">
+          <div class="title">
+            付款與運送方式
           </div>
-          <div class="payOption toHome"[ngClass]="{checkedBorder :!toStore}" (click)="changeOption(false)">
-            <div class="checkable"[ngClass]="{ checked: !toStore }"></div>
-            宅配
+          <div class="toWhere">
+            <div class="payOption toStore" [ngClass]="{checkedBorder :toStore}" (click)="changeToWhereOption(true)">
+              <div class="checkable" [ngClass]="{ checked: toStore }"></div>
+              超商
+            </div>
+            <div class="payOption toHome"[ngClass]="{checkedBorder :!toStore}" (click)="changeToWhereOption(false)">
+              <div class="checkable"[ngClass]="{ checked: !toStore }"></div>
+              宅配
+            </div>
+          </div>
+          <div class="address" *ngIf="!toStore">
+            <span>宅配地址<span class="star">*</span></span>
+            <div class="addressOpt">
+              <select name="#" id="city" (change)="getAreaName($event)"formControlName="city"><span class="star">*</span>
+                <option *ngFor="let value of taiwanData" [value]="value.CityName">{{value.CityName}}</option>
+              </select>
+              <select name="#" id="area" formControlName="area"><span class="star">*</span>
+                <option *ngFor="let value of areaList" [value]="value.AreaName">{{value.AreaName}}</option>
+              </select>
+    
+            </div>
+            <input type="text" placeholder="請輸入詳細地址" formControlName="address">
+          </div>
+          <div class="deliveryList" *ngIf="toStore"> 
+            <span>配送方式</span><span class="star">*</span>
+            <ul class="storeOption">
+              <li [ngClass]="{ '711payfirst': 'choosed','711storePay':'','fampayfirst':'','famstorePay':''}[deliveryOpt]" (click)="changeDeliveryOption('711payfirst')">
+                <img src="../../assets/icons/711_icon.png" alt="#" class="icon" />
+                7-11取貨(先付款)
+              </li>
+              <li [ngClass]="{ '711payfirst': '','711storePay':'choosed','fampayfirst':'','famstorePay':''}[deliveryOpt]" (click)="changeDeliveryOption('711storePay')">
+                <img src="../../assets/icons/711_icon.png" alt="#" class="icon" />
+                7-11 貨到付款
+              </li>
+              <li [ngClass]="{ '711payfirst': '','711storePay':'','fampayfirst':'choosed','famstorePay':''}[deliveryOpt]" (click)="changeDeliveryOption('fampayfirst')">
+                <img src="../../assets/icons/FMicon.png" alt="" class="icon" />
+                全家取貨(先付款)
+              </li>
+              <li [ngClass]="{ '711payfirst': '','711storePay':'','fampayfirst':'','famstorePay':'choosed'}[deliveryOpt]" (click)="changeDeliveryOption('famstorePay')">
+                <img src="../../assets/icons/FMicon.png" alt="" class="icon" />
+                全家 貨到付款
+              </li>
+            </ul>
+          </div>
+          <div class="payList" *ngIf="payFirst">
+            <span>付款方式</span><span class="star">*</span>
+            <ul>
+              <li [ngClass]="{ 'unionCard': 'choosed','storeNumber':'','atm':'','linepay':''}[payOpt]" (click)="changePayOption('unionCard')">
+                <img src="../../assets/icons/card.png" alt="#" class="icon" />
+                銀聯卡
+              </li>
+              <li [ngClass]="{ 'unionCard': '','storeNumber':'choosed','atm':'','linepay':''}[payOpt]" (click)="changePayOption('storeNumber')">
+                <img src="../../assets/icons/4store.png" alt="#" class="icon" />
+                超商代碼
+              </li>
+              <li [ngClass]="{ 'unionCard': '','storeNumber':'','atm':'choosed','linepay':''}[payOpt]" (click)="changePayOption('atm')">
+                <img src="../../assets/icons/atmicon.png" alt="#" class="icon" />
+                虛擬ATM
+              </li>
+              <li [ngClass]="{ 'unionCard': '','storeNumber':'','atm':'','linepay':'choosed'}[payOpt]" (click)="changePayOption('linepay')">
+                <img src="../../assets/icons/linepay.png" alt="#" class="icon" />
+                Line Pay
+              </li>
+            </ul>
+          </div>
+          <div class="remark">
+            <span>備註</span>
+            <input type="text" formControlName="remark"/>
           </div>
         </div>
-        <div class="deliveryList" *ngIf="toStore" [@slideInOut]="animationState"> 
-          <span>配送方式</span>
-          <ul>
-            <li>
-              <img src="../../assets/icons/711_icon.png" alt="#" class="icon" />
-              7-11取貨(先付款)
-            </li>
-            <li>
-              <img src="../../assets/icons/711_icon.png" alt="#" class="icon" />
-              7-11 貨到付款
-            </li>
-            <li>
-              <img src="../../assets/icons/FMicon.png" alt="" class="icon" />
-              全家取貨(先付款)
-            </li>
-            <li>
-              <img src="../../assets/icons/FMicon.png" alt="" class="icon" />
-              全家 貨到付款
-            </li>
-          </ul>
+        <hr />
+        <span class="buyer">購買人資訊</span><span class="star">*</span>
+        <div class="customerInfo">
+          <label for="#"
+            ><span>姓名</span><input type="text" placeholder="購買人姓名" formControlName="customerName" required
+          /></label>
+          <br />
+          <label for="#"
+            ><span>連絡電話</span>
+            <input type="text" placeholder="購買人聯絡電話，例：0987654321" formControlName="phone" required
+          /></label>
+          <br />
+          <div class="invoice">
+            <span>電子發票</span>
+            <ul class="invoiceList">
+              <li (click)="changeInvoiceOption('self')">
+                <div class="checkable" [ngClass]="{ 'self': 'checked','company':'','phone':'','Natural person':''}[invoiceOpt]" ></div>
+                會員載具(個人)
+              </li>
+              <li (click)="changeInvoiceOption('company')">
+                <div class="checkable" [ngClass]="{ 'self': '','company':'checked','phone':'','Natural person':''}[invoiceOpt]"></div>
+                公司用(統編)
+              </li>
+              <li (click)="changeInvoiceOption('phone')">
+                <div class="checkable" [ngClass]="{ 'self': '','company':'','phone':'checked','Natural person':''}[invoiceOpt]"></div>
+                手機載具
+              </li>
+              <li (click)="changeInvoiceOption('Natural person')">
+                <div class="checkable" [ngClass]="{ 'self': '','company':'','phone':'','Natural person':'checked'}[invoiceOpt]"></div>
+                自然人憑證
+              </li>
+            </ul>
+          </div>
+          <br />
         </div>
-        <div class="payList">
-          <span>付款方式</span>
-          <ul>
-            <li>
-              <img src="../../assets/icons/card.png" alt="#" class="icon" />
-              信用卡
-            </li>
-            <li>
-              <img src="../../assets/icons/4store.png" alt="#" class="icon" />
-              超商代碼
-            </li>
-            <li>
-              <img src="../../assets/icons/atmicon.png" alt="#" class="icon" />
-              虛擬ATM
-            </li>
-            <li>
-              <img src="../../assets/icons/linepay.png" alt="#" class="icon" />
-              Line Pay
-            </li>
-          </ul>
+        <div class="checkList">
+          <label for="c1"
+            ><input type="checkbox"  id="c1" formControlName="isRuleOneChecked"/>取件人與購買人相同</label
+          >
+          <label for="c2"
+            ><input
+              type="checkbox"
+              id="c2"
+              formControlName="isRuleTwoChecked"
+            />同意會員責任規範及個資聲明與商家會員條款</label
+          >
+          <label for="c3"
+            ><input
+              type="checkbox"
+              id="c3"
+              formControlName="isRuleThreeChecked"
+            />為保障彼此之權益，賣家在收到您的訂單後仍保有決定是否接受訂單及出貨與否之權利</label
+          >
         </div>
-        <div class="remark">
-          <span>備註</span>
-          <input type="text" />
-        </div>
+        <button class="submitBtn" (click)="addOrder()" [disabled]="!cartForm.valid" >立即結帳</button>
       </div>
-      <hr />
-      <span class="buyer">購買人資訊</span>
-      <div class="customerInfo">
-        <label for="#"
-          ><span>姓名</span><input type="text" placeholder="購買人姓名"
-        /></label>
-        <br />
-        <label for="#"
-          ><span>連絡電話</span
-          ><input type="text" placeholder="購買人聯絡電話，例：0987654321"
-        /></label>
-        <br />
-        <div class="invoice">
-          <span>電子發票</span>
-          <ul class="invoiceList">
-            <li>
-              <div class="checkable"></div>
-              會員載具(個人)
-            </li>
-            <li>
-              <div class="checkable"></div>
-              公司用(統編)
-            </li>
-            <li>
-              <div class="checkable"></div>
-              手機載具
-            </li>
-            <li>
-              <div class="checkable"></div>
-              自然人憑證
-            </li>
-            <li>
-              <div class="checkable"></div>
-              捐贈瑪
-            </li>
-          </ul>
-        </div>
-        <br />
-        <label for="#"
-          ><span>捐贈機構</span>
-          <input type="text" placeholder="請輸入欲捐贈單位的捐贈碼"
-        /></label>
-      </div>
-      <div class="checkList">
-        <label for="c1"
-          ><input type="checkbox" name="c1" id="c1" />取件人與購買人相同</label
-        >
-        <label for="c2"
-          ><input
-            type="checkbox"
-            name="c2"
-            id="c2"
-          />同意會員責任規範及個資聲明與商家會員條款</label
-        >
-        <label for="c3"
-          ><input
-            type="checkbox"
-            name="c3"
-            id="c3"
-          />為保障彼此之權益，賣家在收到您的訂單後仍保有決定是否接受訂單及出貨與否之權利</label
-        >
-      </div>
-      <span class="submitBtn">立即結帳</span>
-    </div>
+  
+    </form>
   </div>
+</div>
+
+
+<div class="container emptyCart" *ngIf="inCartVM.length == 0">
+  <span>您的購物車是空的!馬上<a href="/index">前往商城</a></span>
 </div>

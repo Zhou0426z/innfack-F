@@ -7,4 +7,5 @@ export class InCollectionProductsVM {
   public categoryName: string;
   public imageUrl: string;
   public productID: Guid;
+  public productNo :string;
 }

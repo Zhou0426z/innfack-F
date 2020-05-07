@@ -5,4 +5,5 @@ a img{
 .box1x2{
     display: flex;
     flex-wrap: nowrap;
+    justify-content: space-around;
 }

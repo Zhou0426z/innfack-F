@@ -262,3 +262,8 @@
 .about .swiper-slide div button i {
   margin-right: 5px;
 }
+
+
+button{
+  cursor: pointer;
+}

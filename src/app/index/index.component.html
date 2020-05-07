@@ -1,7 +1,7 @@
  <div class="swiper-container">
    <div class="swiper-wrapper">
      <div class="swiper-slide" *ngFor="let data of Images">
-       <a href="data.goToUrl"><img [src]="data.imageUrl" alt="#" width="100%"></a>
+       <a [routerLink]="['/collection/n9']"><img [src]="data.imageUrl" alt="#" width="100%"></a>
      </div>
    </div>
    <div class="swiper-pagination"></div>
@@ -9,11 +9,9 @@
    <div class="swiper-button-next"></div>
  </div>
 
- <a href="#"><img src="./assets/images/index/index_Image_1.jpg" alt="#"></a>
- <a href="#"><img src="./assets/images/index/index_Image_2.jpg" alt="#"></a>
+ <a [routerLink]="['/collection/n9']"><img src="./assets/images/index/index_Image_1.jpg" alt="#"></a>
+ <a [routerLink]="['/collection/n9']"><img src="./assets/images/index/index_Image_2.jpg" alt="#"></a>
  <div class="box1x2">
-    <a href="#"><img src="./assets/images/index/index_Image_3.jpg" alt="#"></a>
-    <a href="#"><img src="./assets/images/index/index_Image_4.jpg" alt="#"></a>   
+    <a [routerLink]="['/collection/n9']"><img src="./assets/images/index/index_Image_3.jpg" alt="#"></a>
+    <a [routerLink]="['/collection/n9']"><img src="./assets/images/index/index_Image_4.jpg" alt="#"></a>   
  </div>
-
-<button (click)="t();">登出</button>

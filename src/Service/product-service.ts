@@ -14,9 +14,9 @@ export class ProductService {
       HttpEnum.port + `Collection/GetCollectionProducts?category=${category}`
     );
   }
-  getProduct(productID: Guid) {
+  getProduct(productNo: string) {
     return this.http.get<InProductVM>(
-      HttpEnum.port + `Product/GetProduct?productID=${productID}`
+      HttpEnum.port + `Product/GetProduct?productNo=${productNo}`
     );
   }
   getAboutProducts(productID: Guid) {

@@ -1,0 +1,26 @@
+<div class="orderSearch">
+  <div class="order" *ngFor="let order of orders">
+    <span>訂單編號: {{ order.orderID }}</span>
+    <span>配送地址: {{ order.shipAddress }}</span>
+    <span>總價格: {{ order.totalPrice }}</span>
+    <span>訂購日期: {{ order.orderDate }}</span>
+    <span>付款狀態: {{ order.hasPay }}</span>
+
+    <table>
+      <thead>
+        <tr>
+          <th>產品名稱</th>
+          <th>單價</th>
+          <th>數量</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of order.orderDetails">
+          <td>{{ product.productName }}</td>
+          <td>{{ product.unitPrice }}</td>
+          <td>{{ product.quantity }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -3,8 +3,8 @@
     <ul class="top-menu">
       <li><a href="/index"><img src="../assets/images/logo.png" id="logo"></a></li>
       <li *ngFor="let item of headerCategories"><a [routerLink]="['/collection',item.routeName]">{{item.categoryName}}</a></li>
-      <li><a href="/account" class="icon"><i class="fas fa-user"></i></a></li>
-      <li><a href="/cart" class="icon cart-count"><i class="fas fa-shopping-cart"></i></a></li>
+      <li><a href="/login" class="icon"><i class="fas fa-user"></i></a></li>
+      <li><a href="/cart" class="icon cart-count" [attr.data-content]="cartCount"><i class="fas fa-shopping-cart"></i></a></li>
       <li><a href="#" class="icon"><i class="fas fa-search"></i></a></li>
     </ul>
   </div>
@@ -55,4 +55,3 @@
   </div>
 </footer>
 
-<!-- [href]="'/collection/'+item.routeName" -->

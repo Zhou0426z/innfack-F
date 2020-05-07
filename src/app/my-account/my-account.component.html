@@ -1,18 +1,16 @@
 <div class="topSide">
   <div class="container">
-    <h2>title</h2>
+    <h2>親愛的客戶 您好!</h2>
   </div>
 </div>
 <div class="container">
   <div class="aside">
     <ul>
-      <li><a href="#">我的帳戶</a></li>
+      <li><a [routerLink]="['/accountIndex']">我的帳戶</a></li>
       <li routerLink="./editAccount">更新個人資訊</li>
-      <li>更改密碼</li>
-      <li>訂單查詢</li>
-      <li>收件地址管理</li>
-      <li>專屬折價券</li>
-      <li>收藏清單</li>
+      <li routerLink="./editPassword">更改密碼</li>
+      <li routerLink="./orderSearch">訂單查詢</li>
+      <li routerLink="./favoriteList">收藏清單</li>
     </ul>
   </div>
   <div class="content">

@@ -27,24 +27,18 @@
         <span>建議售價:</span>
         <span [innerText]="'NT$'+product.price"></span>
       </div>
-      <span class="productNo" [innerText]="'商品編號: ' + productNo"></span>
-      <span class="productStock" [innerText]="'庫存: ' + stock"></span>
-      <div class="style" *ngIf="specification.length>0">
-        <p>款式:</p>
-        <div>
-          <span *ngFor="let data of specification ; let i =index" (click)="styleChoose($event,i)">{{data}}</span>
-        </div>
-      </div>
+      <span class="productNo" [innerText]="'商品編號: ' + product.productNo"></span>
+      <span class="productStock" [innerText]="'庫存: ' + product.stock"></span>
       <div class="btn">
         <div class="btnQuantity">
-          <button id="reduce" (click)="reduceQuantity()">-</button>
+          <button id="reduce" (click)="reduceQuantity($event)">-</button>
           <input type="text" [value]="quantity" (change)="show($event)">
-          <button id="add" (click)="addQuantity()">+</button>
+          <button id="add" (click)="addQuantity($event)">+</button>
         </div>
         <button id="btnBuy">立即購買</button>
       </div>
-      <span href="#" class="favorite"><i class="fas fa-heart"></i>加入最愛</span>
-      <span href="#" class="addCart"><i class="fas fa-shopping-cart"></i>加入購物車</span>
+      <span  class="favorite" (click)=addFavorite()><i class="fas fa-heart"></i>加入最愛</span>
+      <span  class="addCart" (click)="addCart()"><i class="fas fa-shopping-cart"></i>加入購物車</span>
     </div>
   </div>
 </div>
@@ -57,10 +51,10 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide" *ngFor="let data of aboutProducts">
           <div>
-            <a href="#"><img [src]="data.imageUrl" alt="#"></a>
+            <a [href]="'/product/'+data.productNo"><img [src]="data.imageUrl" alt="#"></a>
             <span [innerText]="data.productName"></span>
             <span [innerText]="'NT$'+data.price" class="aboutPrice"></span>
-            <button><i class="fas fa-shopping-cart"></i>加入購物車</button>
+            <button (click)="addOtherCart(data.productID)"><i class="fas fa-shopping-cart"></i>加入購物車</button>
           </div>
         </div>
       </div>

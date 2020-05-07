@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if (localStorage.getItem("isLogin")) {
-      this.router.navigate(["index"]);
+      this.router.navigate(["/accountIndex"]);
     }
     this.fbService.fbLoginInit();
   }
@@ -38,7 +38,6 @@ export class LoginComponent implements OnInit {
   outAccountVM: OutAccountVM;
 
   normalLogin(value) {
-    console.log(value);
     this.outAccountVM = new OutAccountVM();
     this.outAccountVM.email = value.email;
     this.outAccountVM.password = value.password;

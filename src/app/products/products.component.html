@@ -3,7 +3,7 @@
   <div class="main-content">
     <div class="aside">
       <ul>
-        <li *ngFor="let item of asideCategories"><a href="#">{{item.categoryName}}</a></li>
+        <li *ngFor="let item of asideCategories"><a [routerLink]="['/collection',item.routeName]">{{item.categoryName}}</a></li>
       </ul>
     </div>
     <div class="content">
@@ -19,8 +19,8 @@
             <div (mouseenter)='imgHover($event)' (mouseleave)="imgLeave($event)">
               <img [src]="product.imageUrl" alt="#">
               <div class="search-cart" style="display: none;">
-                <a [href]="'/product/'+product.productID" class="btn"><i class="fas fa-search"></i></a>
-                <a href="#" class="btn"><i class="fas fa-shopping-cart"></i></a>
+                <a [href]="'/product/'+product.productNo" class="btn"><i class="fas fa-search"></i></a>
+                <a  class="btn" (click)="addCart(product.productID)"><i class="fas fa-shopping-cart"></i></a>
               </div>
             </div>
             <a href="#">{{product.productName}}</a>
@@ -36,15 +36,15 @@
 
 <ng-template #listStyle>
   <div class="item-list" *ngFor="let product of products">
-    <a [href]="'/product/'+product.productID"><img [src]="product.imageUrl" alt="#"></a>
+    <a [href]="'/product/'+product.productNo"><img [src]="product.imageUrl" alt="#"></a>
     <div class="item-list-content">
       <a href="#">{{product.productName}}</a>
       <p>{{product.description}}</p>
       <span class="price" [innerText]="'NT$'+ product.price"></span>
     </div>
     <div class="item-btn">
-      <a href="#"><i class="fas fa-heart"></i>加入最愛</a>
-      <button class="add-cart-btn"><i class="fas fa-shopping-cart"></i>加入購物車</button>
+      <a (click)="addFavorite(product.productID)"><i class="fas fa-heart"></i>加入最愛</a>
+      <button class="add-cart-btn" (click)="addCart(product.productID)"><i class="fas fa-shopping-cart"></i>加入購物車</button>
     </div>
   </div>
 </ng-template>

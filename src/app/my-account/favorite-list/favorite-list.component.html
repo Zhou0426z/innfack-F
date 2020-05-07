@@ -1,0 +1,18 @@
+<table>
+  <thead>
+    <tr>
+      <th style="width: 60%;">產品</th>
+      <th style="width: 10%;">單價</th>
+      <th style="width: 10%;">加入購物車</th>
+      <th style="width: 10%;">刪除</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor = "let item of favoriteList">
+        <td><img [src]="item.imgUrl" alt="#"><span>{{item.productName}}</span> </td>
+        <td>{{item.unitPrice}}</td>
+        <td><i class="fas fa-cart-plus" (click)="addCart(item.productID)"></i></td>
+        <td><i class="fas fa-trash" (click)="deleteFavorite(item.favoriteID)"></i></td>
+    </tr>
+  </tbody>
+</table>

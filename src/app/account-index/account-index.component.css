@@ -1,9 +1,13 @@
+.container{
+  min-height: 600px;
+}
 .accountInfo {
   margin: 40px 0;
   border: 1px solid #e2e2e2;
   padding: 20px;
   display: flex;
   min-height: 180px;
+  
 }
 .name {
   padding: 10px 20px 10px 0;

@@ -1,46 +1,71 @@
-<div class="form">
-  <label for="name"
-    >姓名<input type="text" placeholder="請輸入帳戶姓名" id="name"
-  /></label>
-  <label for="phone"
-    >手機號碼<input type="text" placeholder="請輸入手機號碼" id="phone"
-  /></label>
-  <label for="email"
-    >電子郵件<input type="text" placeholder="Example@gmail.com" id="email"
-  /></label>
-  <label for="birth">出生日期<input type="date" id="birth" /></label>
-  <div class="genderSet">
-    性別
-    <div class="genderOption">
-      <div class="male">
-        <div class="checkable"></div>
-        男
+<form [formGroup]="accountForm">
+  <div class="form">
+    <label for="name"
+      >姓名<input
+        type="text"
+        placeholder="請輸入帳戶姓名"
+        id="name"
+        formControlName="name"
+    /></label>
+    <label for="phone"
+      >手機號碼<input
+        type="text"
+        placeholder="請輸入手機號碼"
+        id="phone"
+        formControlName="phone"
+    /></label>
+    <label for="email"
+      >電子郵件<input
+        type="text"
+        placeholder="Example@gmail.com"
+        id="email"
+        formControlName="email"
+    /></label>
+    <label for="birth"
+      >出生日期<input type="date" id="birth" formControlName="birthDate">
+    </label>
+    <div class="genderSet">
+      性別
+      <div class="genderOption">
+        <div class="male" (click)="changGenderOpt('male')">
+          <div
+            class="checkable"
+            [ngClass]="{ male: 'checked', female: '' }[gender]"
+          ></div>
+          男
+        </div>
+        <div class="female" (click)="changGenderOpt('female')">
+          <div
+            class="checkable"
+            [ngClass]="{ male: '', female: 'checked' }[gender]"
+          ></div>
+          女
+        </div>
       </div>
-      <div class="female">
-        <div class="checkable"></div>
-        女
+    </div>
+    <div class="newsSet">
+      電子報
+      <div class="newsOption">
+        <div class="yes" (click)="changSubscribeOpt('subscribe')">
+          <div
+            class="checkable"
+            [ngClass]="{ subscribe: 'checked', unsubscribe: '' }[subscribe]"
+          ></div>
+          訂閱
+        </div>
+        <div class="yes" (click)="changSubscribeOpt('unsubscribe')">
+          <div
+            class="checkable"
+            [ngClass]="{ subscribe: '', unsubscribe: 'checked' }[subscribe]"
+          ></div>
+          不訂閱
+        </div>
+      </div>
+    </div>
+    <div class="btnList">
+      <div class="btn submitBtn" (click)="updateAccount()">
+        確定修改
       </div>
     </div>
   </div>
-  <div class="newsSet">
-    電子報
-    <div class="newsOption">
-      <div class="yes">
-        <div class="checkable"></div>
-        訂閱
-      </div>
-      <div class="yes">
-        <div class="checkable"></div>
-        不訂閱
-      </div>
-    </div>
-  </div>
-  <div class="btnList">
-    <div class="btn resetBtn">
-      重新填寫
-    </div>
-    <div class="btn submitBtn">
-      確定修改
-    </div>
-  </div>
-</div>
+</form>

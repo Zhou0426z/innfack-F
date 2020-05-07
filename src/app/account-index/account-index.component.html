@@ -2,7 +2,9 @@
   <div class="accountInfo">
     <div class="name">
       <h1>{{ name }}</h1>
-      <a href="#" class="accountEdit">更新個人資訊</a>
+      <a class="accountEdit" [routerLink]="['/myAccount/editAccount']"
+        >更新個人資訊</a
+      >
     </div>
     <div class="shoppingInfo">
       <div class="shopping">
@@ -17,12 +19,14 @@
         </div>
       </div>
       <div class="btnList">
-        <a href="#" class="btn bright">查詢訂單</a>
-        <a href="#" class="btn">修改密碼</a>
-        <a href="#" class="btn">會員登出</a>
+        <a [routerLink]="['/myAccount/orderSearch']" class="btn bright"
+          >查詢訂單</a
+        >
+        <a [routerLink]="['/myAccount/editPassword']"class="btn"
+          >修改密碼</a
+        >
+        <a class="btn" (click)="signOut()">會員登出</a>
       </div>
     </div>
   </div>
-  <h3>近期訂單</h3>
-
 </div>

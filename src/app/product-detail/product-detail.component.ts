@@ -3,44 +3,50 @@ import {
   OnInit,
   AfterViewInit,
   Renderer2,
-  ɵConsole
+  ɵConsole,
+  Input,
 } from "@angular/core";
 import Swiper from "swiper";
 import { ProductService } from "src/Service/product-service";
 import { InProductVM } from "src/ViewModels/In/in-product-vm";
 import { Guid } from "guid-typescript";
-import { InAsideProductsVM } from 'src/ViewModels/In/in-aside-products-vm';
-import { ActivatedRoute } from '@angular/router';
+import { InAsideProductsVM } from "src/ViewModels/In/in-aside-products-vm";
+import { ActivatedRoute } from "@angular/router";
+import { OutCartVM } from "src/ViewModels/Out/out-cart-vm";
+import { CartService } from "src/Service/cart-service";
+import { FavoriteService } from 'src/Service/favorite-service';
+import { OutFavoriteVM } from 'src/ViewModels/Out/out-favorite-vm';
 
 @Component({
   selector: "app-product-detail",
   templateUrl: "./product-detail.component.html",
-  styleUrls: ["./product-detail.component.css"]
+  styleUrls: ["./product-detail.component.css"],
 })
 export class ProductDetailComponent implements AfterViewInit, OnInit {
   constructor(
     private renderer: Renderer2,
     private productService: ProductService,
-    private activatedRoute : ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
+    private cartService: CartService,
+    private favoriteService :FavoriteService
   ) {}
-
-  ngOnInit(): void {
-    var productID = Guid.parse(this.activatedRoute.snapshot.paramMap.get('productID'));
-    this.productService.getProduct(productID).subscribe(data => {
-      this.product = data;
-      this.getSpecification();
-    });
-    this.productService
-      .getAboutProducts(productID)
-      .subscribe(data => this.aboutProducts = data);
-  }
   product: InProductVM = new InProductVM();
   aboutProducts: InAsideProductsVM[] = [];
-  productNo: string = "";
+  productNo: string;
   quantity: number = 1;
-  stock: string = "";
-  specification: string[] = [];
   swiper: Swiper;
+  // outCartVM: OutCartVM = new OutCartVM();
+  ngOnInit(): void {
+    this.productNo = 
+      this.activatedRoute.snapshot.paramMap.get("productNo");
+    this.productService.getProduct(this.productNo).subscribe((data) => {
+      this.product = data;
+      this.productService
+      .getAboutProducts(data.productID)
+      .subscribe((data) => (this.aboutProducts = data));
+
+    });
+  }
 
   ngAfterViewInit() {
     var galleryThumbs = new Swiper(".gallery-thumbs", {
@@ -50,7 +56,7 @@ export class ProductDetailComponent implements AfterViewInit, OnInit {
       observeParents: true,
       freeMode: true,
       watchSlidesVisibility: true,
-      watchSlidesProgress: true
+      watchSlidesProgress: true,
     });
     var galleryTop = new Swiper(".gallery-top", {
       spaceBetween: 10,
@@ -58,11 +64,11 @@ export class ProductDetailComponent implements AfterViewInit, OnInit {
       observeParents: true,
       navigation: {
         nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev"
+        prevEl: ".swiper-button-prev",
       },
       thumbs: {
-        swiper: galleryThumbs
-      }
+        swiper: galleryThumbs,
+      },
     });
     var swiper = new Swiper("#swiper-about", {
       slidesPerView: 3,
@@ -72,12 +78,12 @@ export class ProductDetailComponent implements AfterViewInit, OnInit {
       slidesPerGroup: 3,
       pagination: {
         el: ".swiper-pagination",
-        clickable: true
+        clickable: true,
       },
       navigation: {
         nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev"
-      }
+        prevEl: ".swiper-button-prev",
+      },
     });
   }
 
@@ -89,29 +95,65 @@ export class ProductDetailComponent implements AfterViewInit, OnInit {
       );
     }
     this.renderer.addClass($event.target, "choosed");
-    this.productNo = this.product.productDetails[index].productDetailName;
-    this.stock = this.product.productDetails[index].stock.toString();
   }
-  addQuantity() {
+  addQuantity($event: any) {
     this.quantity += 1;
+    if (this.quantity > this.product.stock) {
+      this.quantity = this.product.stock;
+    }
+    $event.target.previousSibling.value = this.quantity;
   }
-  reduceQuantity() {
+  reduceQuantity($event: any) {
     if (this.quantity > 1) {
       this.quantity -= 1;
+      $event.target.nextSibling.value = this.quantity;
     }
   }
 
   show($event: any) {
+    if (
+      isNaN(+$event.target.value) == false &&
+      +$event.target.value > this.product.stock
+    ) {
+      this.quantity = this.product.stock;
+      $event.target.value = this.quantity;
+      return;
+    }
     if (isNaN(+$event.target.value) == false) {
       this.quantity = +$event.target.value;
       return;
     }
     this.quantity = 1;
+    $event.target.value = 1;
   }
 
-  getSpecification() {
-    for (var i = 0; i < this.product.productDetails.length; i++) {
-      this.specification.push(this.product.productDetails[i].specification);
-    }
+  addCart() {
+    var outCartVM = new OutCartVM();
+    var accountID = Guid.parse(localStorage.getItem("id")).toJSON().value;
+    outCartVM.accountID = accountID;
+    outCartVM.productID = this.product.productID;
+    outCartVM.quantity = this.quantity;
+    this.cartService.addCart(outCartVM).subscribe();
+    alert("已加入購物車");
   }
+  addOtherCart(productID :Guid)
+  {
+    var outCartVM = new OutCartVM();
+    var accountID = Guid.parse(localStorage.getItem("id")).toJSON().value;
+    outCartVM.accountID = accountID;
+    outCartVM.productID = productID;
+    outCartVM.quantity = 1;
+    this.cartService.addCart(outCartVM).subscribe();
+    alert("已加入購物車");
+
+  }
+  addFavorite(){
+    var outFavoriteVM = new OutFavoriteVM();
+    var accountID = Guid.parse(localStorage.getItem("id")).toJSON().value;
+    outFavoriteVM.accountID = accountID;
+    outFavoriteVM.productID = this.product.productID;
+    this.favoriteService.addFavorite(outFavoriteVM).subscribe();
+    alert("已加入最愛");
+  }
+
 }

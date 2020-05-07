@@ -1,0 +1,40 @@
+table{
+    width: 100%;
+    border-spacing: 0;
+    border-radius: 5px;
+}
+thead th:first-child{
+    max-width: 40%;
+}
+thead tr{
+    background: #808080;
+    color: #fff;
+    height: 60px;
+}
+tr{
+    height: 120px;
+    text-align: center;
+}
+td{
+    border-bottom: 3px solid #808080;
+    min-width: 25%;
+
+}
+tr span{
+    display: inline-block;
+}
+i{
+    font-size: 23px;
+    cursor: pointer;
+    color: #e2e2e2;
+}
+i:hover{
+    color: #ff6204;
+}
+
+tbody img{
+    width: 100px;
+    height: 100px;
+    margin: 10px 40px 10px 20px;
+    vertical-align: middle;
+}

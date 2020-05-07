@@ -9,10 +9,12 @@ import { LoginComponent } from "./login/login.component";
 import { AccountIndexComponent } from "./account-index/account-index.component";
 import { CartComponent } from "./cart/cart.component";
 import { MyAccountComponent } from "./my-account/my-account.component";
-import { EidtAccountComponent } from './my-account/eidt-account/eidt-account.component';
+import { EidtAccountComponent } from "./my-account/eidt-account/eidt-account.component";
+import { EditPasswordComponent } from "./my-account/edit-password/edit-password.component";
+import { OrderSearchComponent } from "./my-account/order-search/order-search.component";
+import { FavoriteListComponent } from "./my-account/favorite-list/favorite-list.component";
 
 const routes: Routes = [
-  // {path:'',redirectTo:'/home/index',pathMatch:'full'},
   { path: "index", component: IndexComponent },
   { path: "collection", component: ProductsComponent },
   { path: "collection/:category", component: ProductsComponent },
@@ -23,10 +25,15 @@ const routes: Routes = [
   {
     path: "myAccount",
     component: MyAccountComponent,
-    children: [{ path: "editAccount", component: EidtAccountComponent }],
+    children: [
+      { path: "editAccount", component: EidtAccountComponent },
+      { path: "editPassword", component: EditPasswordComponent },
+      { path: "orderSearch", component: OrderSearchComponent },
+      { path: "favoriteList", component: FavoriteListComponent },
+    ],
   },
-  { path: "product/:productID", component: ProductDetailComponent },
-  { path: "", redirectTo: "/myAccount", pathMatch: "full" },
+  { path: "product/:productNo", component: ProductDetailComponent },
+  { path: "", redirectTo: "/accountIndex", pathMatch: "full" },
 ];
 
 @NgModule({

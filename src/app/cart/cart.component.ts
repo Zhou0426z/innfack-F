@@ -13,47 +13,77 @@ import { InCartVM } from "src/ViewModels/In/in-cart-vm";
 import { DOCUMENT } from "@angular/common";
 import { OutCartVM } from "src/ViewModels/Out/out-cart-vm";
 import { stringify } from "querystring";
-import { CartAnimation } from "./cart-animation";
+import { Taiwan } from "src/assets/Taiwan";
+import { OutOrderVM } from "src/ViewModels/Out/out-order-vm";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { OrderService } from "src/Service/order-service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-cart",
   templateUrl: "./cart.component.html",
   styleUrls: ["./cart.component.css"],
-  animations: CartAnimation,
 })
 export class CartComponent implements OnInit, AfterViewInit {
-  constructor(private cartService: CartService, private renderer: Renderer2) {}
-  private accountID: Guid;
-  private inCartVM: InCartVM[];
+  constructor(
+    private cartService: CartService,
+    private renderer: Renderer2,
+    private orderService: OrderService,
+    private router :Router
+  ) {}
+  private inCartVM: InCartVM[] = [];
   private price: number = 0;
-  private freight: number = 0;
+  private freight: number = 60;
   private totalPrice: number;
   private totalCount: number = 0;
   private unitPrice: number[] = [];
   private toStore = true;
-  private payFirst = false;
-  private animationState = "in";
-  ngOnInit(): void {}
+  private payFirst = true;
+  private deliveryOpt = "711payfirst";
+  private payOpt = "unionCard";
+  private invoiceOpt = "self";
+  private taiwanData = [];
+  private areaList = [];
+  private cartForm = new FormGroup({
+    address: new FormControl(),
+    city: new FormControl(),
+    area: new FormControl(),
+    remark: new FormControl(),
+    customerName: new FormControl(null, Validators.required),
+    phone: new FormControl(null, Validators.required),
+    isRuleOneChecked: new FormControl(true, Validators.required),
+    isRuleTwoChecked: new FormControl(true, Validators.required),
+    isRuleThreeChecked: new FormControl(true, Validators.required),
+  });
+  ngOnInit(): void {
+    if (localStorage.getItem("isLogin") == null) {
+      this.inCartVM = [];
+      this.router.navigate(["/login"]);
+      return;
+    }
+    this.taiwanData = Taiwan.data;
+    this.areaList = this.taiwanData[0].AreaList;
+
+    this.getCartData();
+
+  }
   ngAfterViewInit() {
     this.getCartData();
   }
 
-  async getCartData() {
-    this.accountID = Guid.parse(localStorage.getItem("id"));
-    await this.cartService
-      .getCart(this.accountID)
-      .toPromise()
-      .then((data) => {
+   getCartData() {
+    var accountID = Guid.parse(localStorage.getItem("id"));
+     this.cartService
+      .getCart(accountID)
+      .subscribe((data) => {
         this.inCartVM = data;
+        console.log(data);
         this.totalCount = data.length;
       });
     this.price = 0;
     for (var i = 0; i < this.inCartVM.length; i++) {
       this.price += this.inCartVM[i].price * this.inCartVM[i].quantity;
       this.unitPrice[i] = this.inCartVM[i].price * this.inCartVM[i].quantity;
-    }
-    if (this.price > 300) {
-      this.freight = 0;
     }
     this.totalPrice = this.price + this.freight;
   }
@@ -65,8 +95,6 @@ export class CartComponent implements OnInit, AfterViewInit {
     this.update($event, "plus");
   }
   quantityMinus($event: any) {
-    console.log($event.target.parentNode.parentNode.className);
-
     if ($event.target.nextSibling.value > 1) {
       $event.target.nextSibling.value =
         Number($event.target.nextSibling.value) - 1;
@@ -106,10 +134,66 @@ export class CartComponent implements OnInit, AfterViewInit {
       this.getCartData();
     });
   }
-  changeOption(value: boolean) {
+  changeToWhereOption(value: boolean) {
     this.toStore = value;
   }
-  toggleDiv() {
-    this.animationState = this.animationState === "out" ? "in" : "out";
+  changeDeliveryOption(value: string) {
+    this.deliveryOpt = value;
+    if (value == "711storePay" || value == "famstorePay") {
+      this.payFirst = false;
+    } else {
+      this.payFirst = true;
+    }
+  }
+  changePayOption(value: string) {
+    this.payOpt = value;
+  }
+  changeInvoiceOption(value: string) {
+    this.invoiceOpt = value;
+  }
+  getAreaName($event: any) {
+    var valueArea = this.taiwanData.filter(
+      (data) => data.CityName == $event.target.value
+    );
+    this.areaList = valueArea[0].AreaList;
+  }
+  addOrder() {
+    var outOrderVM = new OutOrderVM();
+    var shipCity = this.cartForm.get("city").value;
+    var shipvia = "homeDelivery";
+    var shipAddress =
+      this.cartForm.get("city").value +
+      this.cartForm.get("area").value +
+      this.cartForm.get("address").value;
+    if (
+      (this.cartForm.get("city").value == null ||
+        this.cartForm.get("area").value == null ||
+        this.cartForm.get("address").value == null) &&
+      this.toStore == false
+    ) {
+      alert("請填寫完整地址");
+      return;
+    }
+    if (this.toStore == true) {
+      shipvia = "store";
+      shipAddress = "超商地址";
+      shipCity = "超商城市";
+    }
+
+    outOrderVM.accountId = Guid.parse(
+      localStorage.getItem("id")
+    ).toJSON().value;
+    outOrderVM.shipVia = shipvia;
+    outOrderVM.freight = this.freight;
+    outOrderVM.shipCity = shipCity;
+    outOrderVM.shipAddress = shipAddress;
+    outOrderVM.payWay = this.payOpt;
+    outOrderVM.hasPay = "0";
+    outOrderVM.customerName = this.cartForm.get("customerName").value;
+    outOrderVM.phone = this.cartForm.get("phone").value;
+    outOrderVM.remark = this.cartForm.get("remark").value;
+    outOrderVM.invoiceWay = this.invoiceOpt;
+
+    this.orderService.addOrder(outOrderVM).subscribe();
   }
 }
