@@ -17,7 +17,7 @@ import { Taiwan } from "src/assets/Taiwan";
 import { OutOrderVM } from "src/ViewModels/Out/out-order-vm";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { OrderService } from "src/Service/order-service";
-import { Router } from '@angular/router';
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-cart",
@@ -29,7 +29,7 @@ export class CartComponent implements OnInit, AfterViewInit {
     private cartService: CartService,
     private renderer: Renderer2,
     private orderService: OrderService,
-    private router :Router
+    private router: Router
   ) {}
   private inCartVM: InCartVM[] = [];
   private price: number = 0;
@@ -64,28 +64,24 @@ export class CartComponent implements OnInit, AfterViewInit {
     this.taiwanData = Taiwan.data;
     this.areaList = this.taiwanData[0].AreaList;
 
-    this.getCartData();
-
   }
   ngAfterViewInit() {
     this.getCartData();
   }
 
-   getCartData() {
+  async getCartData() {
     var accountID = Guid.parse(localStorage.getItem("id"));
-     this.cartService
-      .getCart(accountID)
-      .subscribe((data) => {
-        this.inCartVM = data;
-        console.log(data);
-        this.totalCount = data.length;
-      });
-    this.price = 0;
-    for (var i = 0; i < this.inCartVM.length; i++) {
-      this.price += this.inCartVM[i].price * this.inCartVM[i].quantity;
-      this.unitPrice[i] = this.inCartVM[i].price * this.inCartVM[i].quantity;
-    }
-    this.totalPrice = this.price + this.freight;
+    await this.cartService.getCart(accountID).subscribe((data) => {
+      this.inCartVM = data;
+      this.totalCount = data.length;
+      this.price = 0;
+      for (var i = 0; i < this.inCartVM.length; i++) {
+        this.price += this.inCartVM[i].price * this.inCartVM[i].quantity;
+        this.unitPrice[i] = this.inCartVM[i].price * this.inCartVM[i].quantity;
+      }
+      this.totalPrice = this.price + this.freight;
+  
+    });
   }
 
   quantityPlus($event: any) {

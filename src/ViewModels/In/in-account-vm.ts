@@ -7,7 +7,7 @@ export class InAccountVM {
   public name: string;
   public birthDay?: Date;
   public phone: string;
-
+  public token :string;
   public gender: string;
   public subscribe: string;
 }
