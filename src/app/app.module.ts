@@ -29,6 +29,7 @@ import { EditPasswordComponent } from './my-account/edit-password/edit-password.
 import { FavoriteListComponent } from './my-account/favorite-list/favorite-list.component';
 import { OrderSearchComponent } from './my-account/order-search/order-search.component';
 import { DatePipe } from '@angular/common';
+import { LineComponent } from './line/line.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +45,7 @@ import { DatePipe } from '@angular/common';
     EditPasswordComponent,
     FavoriteListComponent,
     OrderSearchComponent,
+    LineComponent,
   ],
   imports: [
     BrowserModule,

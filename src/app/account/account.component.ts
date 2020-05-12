@@ -4,6 +4,7 @@ import { OutAccountVM } from "src/ViewModels/Out/out-account-vm";
 import { AccountService } from "src/Service/account-service";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
+import { LineService } from 'src/Service/line-service';
 @Component({
   selector: "app-account",
   templateUrl: "./account.component.html",
@@ -13,6 +14,7 @@ export class AccountComponent implements OnInit {
   constructor(
     private fbService: FbService,
     private accountService: AccountService,
+    private lineService :LineService,
     private router:Router
   ) {
     this.normalSignUpForm = new FormGroup({
@@ -36,6 +38,9 @@ export class AccountComponent implements OnInit {
   }
   fbSignUp() {
    this.fbService.fbSignUp();
+  }
+  lineSignUp(){
+    this.lineService.lineLoginInit();
   }
   normalSignUp(value) {
     if (value.password != value.passwordConfirm) {

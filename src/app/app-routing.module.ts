@@ -13,6 +13,7 @@ import { EidtAccountComponent } from "./my-account/eidt-account/eidt-account.com
 import { EditPasswordComponent } from "./my-account/edit-password/edit-password.component";
 import { OrderSearchComponent } from "./my-account/order-search/order-search.component";
 import { FavoriteListComponent } from "./my-account/favorite-list/favorite-list.component";
+import { LineComponent } from './line/line.component';
 
 const routes: Routes = [
   { path: "index", component: IndexComponent },
@@ -22,6 +23,8 @@ const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "accountIndex", component: AccountIndexComponent },
   { path: "cart", component: CartComponent },
+  { path: "line", component: LineComponent },
+
   {
     path: "myAccount",
     component: MyAccountComponent,
@@ -33,7 +36,7 @@ const routes: Routes = [
     ],
   },
   { path: "product/:productNo", component: ProductDetailComponent },
-  { path: "", redirectTo: "/accountIndex", pathMatch: "full" },
+  { path: "", redirectTo: "/index", pathMatch: "full" },
 ];
 
 @NgModule({

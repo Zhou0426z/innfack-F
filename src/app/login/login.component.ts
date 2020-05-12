@@ -2,8 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { OutAccountVM } from "src/ViewModels/Out/out-account-vm";
 import { AccountService } from "src/Service/account-service";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { FbService } from "src/Service/fb-service";
+import { URL } from 'url';
+import { LineService } from 'src/Service/line-service';
 
 @Component({
   selector: "app-login",
@@ -14,7 +16,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private fbService: FbService,
-    private router: Router
+    private lineService :LineService,
+    private router: Router,
+    private activateRoute :ActivatedRoute
   ) {
     this.loginForm = new FormGroup({
       email: new FormControl(
@@ -46,7 +50,10 @@ export class LoginComponent implements OnInit {
       this.accountService.setSessionStorage(data);
     });
   }
+  line(){
+    this.lineService.lineLoginInit();
 
+  }
   fbLogin() {
     this.fbService.fbLogin();
   }
