@@ -35,7 +35,7 @@
           <input type="text" [value]="quantity" (change)="show($event)">
           <button id="add" (click)="addQuantity($event)">+</button>
         </div>
-        <button id="btnBuy">立即購買</button>
+        <button id="btnBuy" (click)="buy()">立即購買</button>
       </div>
       <span  class="favorite" (click)=addFavorite()><i class="fas fa-heart"></i>加入最愛</span>
       <span  class="addCart" (click)="addCart()"><i class="fas fa-shopping-cart"></i>加入購物車</span>

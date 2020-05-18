@@ -190,6 +190,8 @@ export class CartComponent implements OnInit, AfterViewInit {
     outOrderVM.remark = this.cartForm.get("remark").value;
     outOrderVM.invoiceWay = this.invoiceOpt;
 
-    this.orderService.addOrder(outOrderVM).subscribe();
+    this.orderService.addOrder(outOrderVM).subscribe(res=>{
+      this.router.navigate(['myAccount/orderSearch']);
+    });
   }
 }

@@ -18,11 +18,17 @@ export class AccountService {
       outAccount
     );
   }
+  lineSignUp(token: string) {
+    return this.http.get<InAccountVM>(HttpEnum.port + `Account/LineSignUp?token=${token}`);
+  }
   login(outAccount: OutAccountVM) {
     return this.http.post<InAccountVM>(
       HttpEnum.port + "Account/Login",
       outAccount
     );
+  }
+  lineLogin(token: string) {
+    return this.http.get<InAccountVM>(HttpEnum.port + `Account/LineLogin?token=${token}`);
   }
   setSessionStorage(data: InAccountVM) {
     if (data.statusCode == 200) {

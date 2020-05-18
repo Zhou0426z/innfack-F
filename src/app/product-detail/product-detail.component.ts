@@ -11,7 +11,7 @@ import { ProductService } from "src/Service/product-service";
 import { InProductVM } from "src/ViewModels/In/in-product-vm";
 import { Guid } from "guid-typescript";
 import { InAsideProductsVM } from "src/ViewModels/In/in-aside-products-vm";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { OutCartVM } from "src/ViewModels/Out/out-cart-vm";
 import { CartService } from "src/Service/cart-service";
 import { FavoriteService } from 'src/Service/favorite-service';
@@ -28,7 +28,8 @@ export class ProductDetailComponent implements AfterViewInit, OnInit {
     private productService: ProductService,
     private activatedRoute: ActivatedRoute,
     private cartService: CartService,
-    private favoriteService :FavoriteService
+    private favoriteService :FavoriteService,
+    private router:Router
   ) {}
   product: InProductVM = new InProductVM();
   aboutProducts: InAsideProductsVM[] = [];
@@ -126,7 +127,17 @@ export class ProductDetailComponent implements AfterViewInit, OnInit {
     this.quantity = 1;
     $event.target.value = 1;
   }
+  buy(){
+    var outCartVM = new OutCartVM();
+    var accountID = Guid.parse(localStorage.getItem("id")).toJSON().value;
+    outCartVM.accountID = accountID;
+    outCartVM.productID = this.product.productID;
+    outCartVM.quantity = this.quantity;
+    this.cartService.addCart(outCartVM).subscribe(res=>{
+      this.router.navigate(["cart"]);
+    });
 
+  }
   addCart() {
     var outCartVM = new OutCartVM();
     var accountID = Guid.parse(localStorage.getItem("id")).toJSON().value;
